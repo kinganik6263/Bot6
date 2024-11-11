@@ -16,6 +16,7 @@
     "fs-extra": "^11.2.0",
     "image-downloader": "^4.3.0",
     "moment-timezone": "^0.5.46",
+    "priyanshu-fca": "^1.0.0",
     "request": "^2.88.2"
   }
 }
