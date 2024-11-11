@@ -1,0 +1,21 @@
+{
+  "author": "Nayan",
+  "BOTNAME": "AnikBot",
+  "PREFIX": "/",
+  "OPERATOR": ["user1_id", "user2_id"],
+  "ADMINBOT": ["100001453534533"],
+  "OWNER": ["100001453534533"],
+  "APPROVED": ["approved_user_id"],  
+  "LANGUAGE": "bn",
+  "VERSION": "1.0.0",
+  "PERMISSIONS": {
+    "DEFAULT": 0,
+    "ADMIN_ONLY": 2
+  }
+}
+
+
+
+
+
+
