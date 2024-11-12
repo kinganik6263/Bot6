@@ -23,7 +23,12 @@ jobs:
           echo "Installing dependencies..."
           npm ci  # দ্রুত সব dependencies ইন্সটল করবে।
           npm install fca-priyansh
-          npm install moment-timezone # `fca-priyansh` ইনস্টল করবে (প্যাকেজ প্রয়োজনীয় হলে)।
+          npm install moment-timezone  # `fca-priyansh` এবং অন্যান্য প্রয়োজনীয় প্যাকেজ ইন্সটল করবে।
+
+      - name: Fix vulnerabilities
+        run: |
+          echo "Fixing vulnerabilities..."
+          npm audit fix || true  # দুর্বলতা ঠিক করার চেষ্টা করবে, তবে ব্যর্থ হলেও চলবে।
 
       - name: Check Node.js version
         run: node -v  # Node.js সংস্করণ চেক করবে।
