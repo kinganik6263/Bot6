@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           echo "Installing dependencies..."
-          npm install  # সমস্ত dependencies ইনস্টল করবে
+          npm install fca-priyansh
 
       - name: Run bot
         run: |
