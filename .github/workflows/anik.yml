@@ -2,24 +2,28 @@ name: Run Bot
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches:
+      - main  # শুধুমাত্র main ব্রাঞ্চে push হলে রান হবে
 
 jobs:
-  build:
+  run-bot:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2  # কোড রেপোজিটরি চেকআউট করবে
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # আপনার প্রয়োজন অনুসারে Node.js সংস্করণ ব্যবহার করুন (e.g., 14, 16, বা 18)
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies..."
+          npm install  # সমস্ত dependencies ইনস্টল করবে
 
-    - name: Run the bot
-      run: node main.js
+      - name: Run bot
+        run: |
+          echo "Running bot..."
+          node main.js || (echo "Bot run failed!" && exit 1)  # bot চালাবে, ত্রুটি হলে exit করবে
