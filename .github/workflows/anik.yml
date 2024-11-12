@@ -3,28 +3,31 @@ name: Run Bot
 on:
   push:
     branches:
-      - main  # main ব্রাঞ্চে push হলে এই workflow রান হবে
+      - main  # main branch-এ push হলে এই workflow রান হবে।
 
 jobs:
   run-bot:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # এই environment-এ রান হবে।
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2  # রেপোজিটরি চেকআউট করবে
+        uses: actions/checkout@v2  # repository চেকআউট করবে।
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Node.js সংস্করণ নির্বাচন করুন (14, 16, বা 18 যেটা প্রয়োজন)
+          node-version: '16'  # Node.js সংস্করণ (আপনার প্রয়োজন অনুযায়ী 16 বা 18 সেট করতে পারেন)।
 
       - name: Install dependencies
         run: |
           echo "Installing dependencies..."
-          npm install  # সমস্ত প্যাকেজ ইনস্টল করবে
-          npm install fca-priyansh  # fca-priyansh ইনস্টল করবে
+          npm ci  # দ্রুত সব dependencies ইন্সটল করবে।
+          npm install fca-priyansh  # `fca-priyansh` ইনস্টল করবে (প্যাকেজ প্রয়োজনীয় হলে)।
+
+      - name: Check Node.js version
+        run: node -v  # Node.js সংস্করণ চেক করবে।
 
       - name: Run bot
         run: |
           echo "Running bot..."
-          node main.js || (echo "Bot run failed!" && exit 1)  # bot চালাবে, ত্রুটি হলে exit করবে
+          node main.js || (echo "Bot run failed!" && tail -n 20 main.js && exit 1)  # bot চালাবে, ত্রুটি হলে exit করবে এবং শেষ ২০টি লাইন দেখাবে।
