@@ -1,30 +1,27 @@
-// Modules required
+// Required modules
 const login = require("fca-priyansh");
 const fs = require("fs");
 const path = require("path");
 const moment = require('moment-timezone');
 
-// Main.js
-
+// Global modules object
 global.nodemodule = {};
-
-// Load packages
 global.nodemodule.request = require('request'); 
-global.nodemodule.request = require('fs-extra'); 
+global.nodemodule.fsExtra = require('fs-extra');
 
-// Load config file
+// Load config
 const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
 const prefix = config.PREFIX;
 global.config = config;
 
-// Load appstate token from appstade.json
+// Load appstate from appstade.json
 const appState = JSON.parse(fs.readFileSync("appstade.json", "utf8"));
 
-// Initialize commands and events
+// Initialize command and event arrays
 const commands = new Map();
 const events = [];
 
-// Load all command files
+// Load command files
 const commandPath = path.join(__dirname, "module", "command");
 const commandFiles = fs.readdirSync(commandPath).filter(file => file.endsWith(".js"));
 commandFiles.forEach(file => {
@@ -32,7 +29,7 @@ commandFiles.forEach(file => {
   commands.set(command.config.name, command);
 });
 
-// Load all event files
+// Load event files
 const eventPath = path.join(__dirname, "module", "event");
 fs.readdirSync(eventPath).forEach(file => {
   if (file.endsWith(".js")) {
@@ -47,6 +44,7 @@ login({ appState }, (err, api) => {
 
   console.log("Bot successfully logged in!");
 
+  // Log loaded commands
   commandFiles.forEach(file => {
     const command = require(path.join(commandPath, file));
     console.log(`Loaded command: ${command.config.name}`);
@@ -60,7 +58,7 @@ login({ appState }, (err, api) => {
   console.log("Facebook: https://www.facebook.com/profile.php?id=100001453534533");
   console.log("Don't spam, don't change credits, enjoy the bot ☺️");
   console.log("==================================================");
-   
+
   console.log(" ▗▄▖ ▗▖  ▗▖▗▄▄▄▖▗▖ ▗▖    ▗▄▄▖  ▗▄▖▗▄▄▄▖");
   console.log("▐▌ ▐▌▐▛▚▖▐▌  █  ▐▌▗▞▘    ▐▌ ▐▌▐▌ ▐▌ █  ");
   console.log("▐▛▀▜▌▐▌ ▝▜▌  █  ▐▛▚▖     ▐▛▀▚▖▐▌ ▐▌ █  ");
@@ -71,6 +69,7 @@ login({ appState }, (err, api) => {
   api.listenMqtt((err, event) => {
     if (err) return console.error(err);
 
+    // Command handling
     if (event.body && event.body.startsWith(prefix)) {
       const args = event.body.slice(prefix.length).trim().split(" ");
       const commandName = args.shift().toLowerCase();
@@ -87,12 +86,12 @@ login({ appState }, (err, api) => {
       }
     }
 
-    // Log message details when a user sends a message in a group
+    // Log message details
     if (event.body) {
       const userID = event.senderID;
       const threadID = event.threadID;
 
-      // Get the current time in Bangladesh timezone
+      // Format current time for Bangladesh
       const messageTime = moment.tz(parseInt(event.timestamp), 'Asia/Dhaka').format('hh:mm:ss A');
 
       // Bot name from config
