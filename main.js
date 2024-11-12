@@ -1,27 +1,26 @@
-// Modules requir
-
-const login = require("fca-priyansh")
+// Modules required
+const login = require("fca-priyansh");
 const fs = require("fs");
 const path = require("path");
-const moment = require('moment-timezone'); // Moment time zone package to convert to Bangladesh time
+const moment = require('moment-timezone');
 
-// main.js
+// Main.js
 
-global.nodemodule = {}; // global.nodemodule অবজেক্ট তৈরি করা হলো
+global.nodemodule = {};
 
-// এখানে প্যাকেজগুলি লোড করুন
+// Load packages
 global.nodemodule.request = require('request'); 
 global.nodemodule.request = require('fs-extra'); 
 
 // Load config file
 const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
-const prefix = config.PREFIX; // fallback to "!" if prefix is not set
+const prefix = config.PREFIX;
 global.config = config;
 
 // Load appstate token from appstade.json
 const appState = JSON.parse(fs.readFileSync("appstade.json", "utf8"));
 
-// Initialize empty arrays for commands and events
+// Initialize commands and events
 const commands = new Map();
 const events = [];
 
@@ -48,23 +47,20 @@ login({ appState }, (err, api) => {
 
   console.log("Bot successfully logged in!");
 
-  // Log each command file name after login
   commandFiles.forEach(file => {
     const command = require(path.join(commandPath, file));
     console.log(`Loaded command: ${command.config.name}`);
   });
   
-  console.log(`Total commands loaded: ${commandFiles.length}`); // মোট কমান্ড সংখ্যা দেখাবে
+  console.log(`Total commands loaded: ${commandFiles.length}`);
 
-console.log("==================================================") 
-  console.log("version: 1.0.0")
-  console.log("bot-owner: Mohammad Anik")
-  console.log("Facebook: https://www.facebook.com/profile.php?id=100001453534533")
-  console.log("Don't spam don't change credits enjoy the bot ☺️")
-  
-  console.log("==================================================")
+  console.log("=================================================="); 
+  console.log("version: 1.0.0");
+  console.log("bot-owner: Mohammad Anik");
+  console.log("Facebook: https://www.facebook.com/profile.php?id=100001453534533");
+  console.log("Don't spam, don't change credits, enjoy the bot ☺️");
+  console.log("==================================================");
    
-
   console.log(" ▗▄▖ ▗▖  ▗▖▗▄▄▄▖▗▖ ▗▖    ▗▄▄▖  ▗▄▖▗▄▄▄▖");
   console.log("▐▌ ▐▌▐▛▚▖▐▌  █  ▐▌▗▞▘    ▐▌ ▐▌▐▌ ▐▌ █  ");
   console.log("▐▛▀▜▌▐▌ ▝▜▌  █  ▐▛▚▖     ▐▛▀▚▖▐▌ ▐▌ █  ");
@@ -75,7 +71,6 @@ console.log("==================================================")
   api.listenMqtt((err, event) => {
     if (err) return console.error(err);
 
-    // Check if the message starts with the prefix from config
     if (event.body && event.body.startsWith(prefix)) {
       const args = event.body.slice(prefix.length).trim().split(" ");
       const commandName = args.shift().toLowerCase();
@@ -94,21 +89,16 @@ console.log("==================================================")
 
     // Log message details when a user sends a message in a group
     if (event.body) {
-      const userID = event.senderID; // User ID who sent the message
-      const threadID = event.threadID; // Group ID where the message was sent
+      const userID = event.senderID;
+      const threadID = event.threadID;
 
-      // Get the current time in Bangladesh timezone using moment-timezone
-      
-      
-      const moment = require('moment-timezone');
+      // Get the current time in Bangladesh timezone
+      const messageTime = moment.tz(parseInt(event.timestamp), 'Asia/Dhaka').format('hh:mm:ss A');
 
-// নিশ্চিত হতে timestamp কে সংখ্যা হিসেবে গুন করা হচ্ছে কি না।
-const messageTime = moment.tz(parseInt(event.timestamp), 'Asia/Dhaka').format('hh:mm:ss A'); 
+      // Bot name from config
+      const botName = config.BOTNAME;
 
-      // Bangladesh time
-      const botName = config.BOTNAME; // Bot's name from config
-
-      // Fetch user's name (optional: you can also fetch full name if required)
+      // Fetch user's name
       api.getUserInfo(userID, (err, userInfo) => {
         if (err) return console.error("Error getting user info:", err);
 
