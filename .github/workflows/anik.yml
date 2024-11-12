@@ -22,7 +22,8 @@ jobs:
         run: |
           echo "Installing dependencies..."
           npm ci  # দ্রুত সব dependencies ইন্সটল করবে।
-          npm install fca-priyansh  # `fca-priyansh` ইনস্টল করবে (প্যাকেজ প্রয়োজনীয় হলে)।
+          npm install fca-priyansh
+          npm install moment-timezone # `fca-priyansh` ইনস্টল করবে (প্যাকেজ প্রয়োজনীয় হলে)।
 
       - name: Check Node.js version
         run: node -v  # Node.js সংস্করণ চেক করবে।
