@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "fs": "^0.0.1-security",
+    "fs-extra": "^11.2.0",
+    "got": "^14.4.4",
+    "moment-timezone": "^0.5.46",
+    "npmlog": "^7.0.1",
+    "priyanshu-fca": "^1.0.0",
+    "request": "^2.88.2"
+  },
+  "name": "bot5",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mohammad Anik",
+  "license": "ISC",
+  "description": ""
+}
